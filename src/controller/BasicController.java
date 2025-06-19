@@ -36,8 +36,11 @@ public class BasicController {
     }
 
     @PostMapping("/user")
-    public String createUser(@RequestBody User user) {
+    public User createUser(@RequestBody User user) {
         System.out.println("Got a POST request for /user with user: " + user.name + ", age: " + user.age);
-        return "Hello, " + user.name + "! You are " + user.age;
+        User newUser = new User();
+        newUser.name = user.name;
+        newUser.age = user.age;
+        return newUser;
     }
 }
