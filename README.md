@@ -7,7 +7,7 @@
 
 ## 目录结构
 ```
-src/
+src/main/java/
   MainServer.java             # 启动入口
   annotation/                 # 路由及参数相关注解
   controller/                 # 控制器类
@@ -30,7 +30,7 @@ src/
 在项目根目录执行：
 ```bash
 mvn package
-java -cp target/classes MainServer
+java -jar target/mini-server.jar
 ```
 服务器默认监听 `8080` 端口。
 
