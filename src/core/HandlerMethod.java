@@ -9,8 +9,4 @@ public class HandlerMethod {
         this.controller = controller;
         this.method = method;
     }
-
-    public String invoke() throws Exception {
-        return (String) method.invoke(controller);
-    }
 }

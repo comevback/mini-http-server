@@ -1,13 +1,11 @@
 package core;
 
-import annotation.GetMapping;
-
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Dispatcher {
-    private final Map<String, HandlerMethod> routeMap = new HashMap<>();
+    private final Map<String, HandlerMethod> handlerMethodHashMap = new HashMap<>();
 
     public Dispatcher() {}
 
@@ -15,18 +13,18 @@ public class Dispatcher {
         try {
             Object instance = clazz.getDeclaredConstructor().newInstance();
             String key = httpMethod.toUpperCase() + ":" + path;
-            routeMap.put(key, new HandlerMethod(instance, method));
+            handlerMethodHashMap.put(key, new HandlerMethod(instance, method));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
 
-    public HandlerMethod dispatch(String httpMethod, String path) {
-        String key = httpMethod.toUpperCase() + ":" + path;
-        HandlerMethod handlerMethod = routeMap.get(key);
+    public HandlerMethod dispatch(HttpRequest request) {
+        String key = request.method.toUpperCase() + ":" + request.path;
+        HandlerMethod handlerMethod = handlerMethodHashMap.get(key);
         if (handlerMethod == null) {
-            throw new RuntimeException("404 Not Found: " + httpMethod + " " + path);
+            throw new RuntimeException("404 Not Found: " + request.method + " " + request.path);
         }
         return handlerMethod;
     }
