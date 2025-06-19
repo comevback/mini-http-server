@@ -4,7 +4,7 @@ import server.HttpServer;
 
 public class MainServer {
     public static void main(String[] args) {
-        Dispatcher dispatcher = new Dispatcher(); // 或 RouterScanner.scan() 注册控制器
+        Dispatcher dispatcher = new Dispatcher();
         try {
             RouterScanner.scan("controller", dispatcher); // 扫描 controller 包下的所有类
         } catch (Exception e) {

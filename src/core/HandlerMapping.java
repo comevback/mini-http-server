@@ -6,6 +6,7 @@ import java.net.Socket;
 public class HandlerMapping {
     public static void handle(Socket client, Dispatcher dispatcher) {
         try (
+                // Socket autoCloseSocket = client; // 这行代码在 Java 9 及以上版本中可以使用，自动关闭 Socket
                 BufferedReader reader = new BufferedReader(new InputStreamReader(client.getInputStream()));
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()))
         ) {
@@ -29,6 +30,12 @@ public class HandlerMapping {
             writer.flush();
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                client.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
