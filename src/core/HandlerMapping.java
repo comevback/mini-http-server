@@ -23,11 +23,21 @@ public class HandlerMapping {
             HandlerAdapter adapter = new HandlerAdapter();
             String responseBody = adapter.handle(handlerMethod, request);
 
+//            writer.write("HTTP/1.1 200 OK\r\n");
+//            writer.write("Content-Type: text/plain\r\n");
+//            writer.write("Content-Length: " + responseBody.length() + "\r\n\r\n");
+//            writer.write(responseBody);
+//            writer.flush();
+            byte[] bytes = responseBody.getBytes("UTF-8");
+
             writer.write("HTTP/1.1 200 OK\r\n");
-            writer.write("Content-Type: text/plain\r\n");
-            writer.write("Content-Length: " + responseBody.length() + "\r\n\r\n");
-            writer.write(responseBody);
-            writer.flush();
+            writer.write("Content-Type: application/json\r\n");
+            writer.write("Content-Length: " + bytes.length + "\r\n");
+            writer.write("\r\n");
+            writer.flush(); // flush headers first
+            client.getOutputStream().write(bytes); // 注意直接写字节流
+            client.getOutputStream().flush();
+
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
