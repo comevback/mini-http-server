@@ -28,6 +28,7 @@ public class ClassScanner {
             URL resource = resources.nextElement();
             // 如果资源是文件协议，则直接查找文件系统中的类
             if (resource.getProtocol().equals("file")) {
+                // 将 URL 转换为文件对象，并递归查找该目录下的所有类
                 classes.addAll(findClasses(new File(resource.toURI()), packageName));
             // 如果资源是 jar 协议，则需要处理 jar 文件中的类
             } else if (resource.getProtocol().equals("jar")) {
@@ -48,6 +49,13 @@ public class ClassScanner {
         return classes;
     }
 
+    /**
+     * 递归查找指定目录下的所有类文件，并将其转换为 Class 对象
+     * @param directory 指定的目录
+     * @param packageName 包名
+     * @return 包含所有找到的类的集合
+     * @throws ClassNotFoundException 如果类加载失败
+     */
     private static Set<Class<?>> findClasses(File directory, String packageName) throws ClassNotFoundException {
         Set<Class<?>> classes = new HashSet<>();
         if (!directory.exists()) {
@@ -58,7 +66,9 @@ public class ClassScanner {
             if (file.isDirectory()) {
                 classes.addAll(findClasses(file, packageName + "." + file.getName()));
             } else if (file.getName().endsWith(".class")) {
+                // 去掉 .class 后缀，构造完整的类名
                 String className = packageName + '.' + file.getName().substring(0, file.getName().length() - 6);
+                // 使用 Class.forName() 方法反射机制加载类
                 classes.add(Class.forName(className));
             }
         }

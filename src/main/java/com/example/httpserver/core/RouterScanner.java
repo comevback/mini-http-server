@@ -8,6 +8,13 @@ import com.example.httpserver.util.ClassScanner;
 
 
 public class RouterScanner {
+    /**
+     * 扫描指定包下的所有 Controller 类，并注册其方法到 Dispatcher 中
+     *
+     * @param basePackage 要扫描的基础包名
+     * @param dispatcher  Dispatcher 实例，用于注册路由
+     * @throws Exception 如果扫描或注册过程中发生错误
+     */
     public static void scan(String basePackage, Dispatcher dispatcher) throws Exception {
         Set<Class<?>> classes = ClassScanner.getClasses(basePackage); // 获取 controller 下的所有类
 

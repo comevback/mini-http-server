@@ -12,11 +12,20 @@ public class HttpServer {
     private final int port;
     private final Dispatcher dispatcher;
 
+    /**
+     * 构造 HTTP 服务器
+     *
+     * @param port       服务器端口
+     * @param dispatcher 请求分发器
+     */
     public HttpServer(int port, Dispatcher dispatcher) {
         this.port = port;
         this.dispatcher = dispatcher;
     }
 
+    /**
+     * 启动 HTTP 服务器
+     */
     public void start() {
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             System.out.println("🚀 HTTP Server started on port " + port);
