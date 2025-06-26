@@ -30,4 +30,4 @@ bin/
 
 ### Project files ###
 .idea/
-target
+target/
