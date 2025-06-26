@@ -74,18 +74,14 @@ public class AnnotationScanner {
      * @throws Exception 如果创建实例或注入依赖失败
      */
     public static void scan(String packageName) throws Exception {
-        System.out.println("Scanning package: " + packageName);
         // 使用一个哈希表来存储单例对象
         Set<Class<?>> classes = ClassScanner.getClasses(packageName); // 获取指定包下的所有类
-        // System.out.println("Found " + classes.size() + " classes");
         interfaceToImplMap = InterfaceMapping.getInterfaceToImplMap(classes); // 获取接口与实现类的映射
 
         for (Class<?> clazz : classes) {
             if (!clazz.isInterface() && clazz.isAnnotationPresent(Controller.class) || clazz.isAnnotationPresent(Service.class)) {
-                // System.out.println("Creating instance for class: " + clazz.getName());
                 getOrCreateInstance(clazz);
             }
         }
-        System.out.println("Finished scanning and creating instances");
     }
 }

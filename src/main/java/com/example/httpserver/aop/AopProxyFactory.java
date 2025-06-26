@@ -26,7 +26,7 @@ public class AopProxyFactory {
 
                         if (realMethod.isAnnotationPresent(Log.class)) {
                             Log log = realMethod.getAnnotation(Log.class);
-                            System.out.println("[AOP] Executing method: " + log.value());
+                            System.out.println("[AOP] Executing method: " +realMethod.getName() +" : "+ log.value());
                         }
 
                         return method.invoke(target, args);
